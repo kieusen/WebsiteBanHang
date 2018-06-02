@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Buoi4_Demo.Models.ThanhVien>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Search", "ThanhViens", FormMethod.Post, new { @class = "form-inline form-group" }))
+{   
+    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="keyword"> 
+    <button class="btn btn-success" type="submit">Search</button>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MatKhau)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoTen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiaChi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SoDienThoai)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoaiThanhVien.TenLoaiThanhVien)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatKhau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoTen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoDienThoai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiThanhVien.TenLoaiThanhVien)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.TaiKhoan }) |
+                @Html.ActionLink("Details", "Details", new { id = item.TaiKhoan }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.TaiKhoan })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLyThanhVienModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="LoaiThanhVien">
+    <Key>
+      <PropertyRef Name="MaLoaiThanhVien" />
+    </Key>
+    <Property Name="MaLoaiThanhVien" Type="Int32" Nullable="false" />
+    <Property Name="TenLoaiThanhVien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MoTa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ThanhViens" Relationship="Self.FK_ThanhVien_LoaiThanhVien" FromRole="LoaiThanhVien" ToRole="ThanhVien" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="ThanhVien">
+    <Key>
+      <PropertyRef Name="TaiKhoan" />
+    </Key>
+    <Property Name="TaiKhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MaLoaiThanhVien" Type="Int32" />
+    <NavigationProperty Name="LoaiThanhVien" Relationship="Self.FK_ThanhVien_LoaiThanhVien" FromRole="ThanhVien" ToRole="LoaiThanhVien" />
+  </EntityType>
+  <EntityType Name="View_NguoiDung">
+    <Key>
+      <PropertyRef Name="TaiKhoan" />
+    </Key>
+    <Property Name="TaiKhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="View_ThongTinThanhVien">
+    <Key>
+      <PropertyRef Name="TaiKhoan" />
+    </Key>
+    <Property Name="TaiKhoan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TenLoaiThanhVien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_ThanhVien_LoaiThanhVien">
+    <End Role="LoaiThanhVien" Type="Self.LoaiThanhVien" Multiplicity="0..1" />
+    <End Role="ThanhVien" Type="Self.ThanhVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoaiThanhVien">
+        <PropertyRef Name="MaLoaiThanhVien" />
+      </Principal>
+      <Dependent Role="ThanhVien">
+        <PropertyRef Name="MaLoaiThanhVien" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuanLyThanhVienEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="LoaiThanhViens" EntityType="Self.LoaiThanhVien" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="ThanhViens" EntityType="Self.ThanhVien" />
+    <EntitySet Name="View_NguoiDung" EntityType="Self.View_NguoiDung" />
+    <EntitySet Name="View_ThongTinThanhVien" EntityType="Self.View_ThongTinThanhVien" />
+    <AssociationSet Name="FK_ThanhVien_LoaiThanhVien" Association="Self.FK_ThanhVien_LoaiThanhVien">
+      <End Role="LoaiThanhVien" EntitySet="LoaiThanhViens" />
+      <End Role="ThanhVien" EntitySet="ThanhViens" />
+    </AssociationSet>
+    <FunctionImport Name="usp_Sua_ThanhVien">
+      <Parameter Name="TaiKhoan" Mode="In" Type="String" />
+      <Parameter Name="MatKhau" Mode="In" Type="String" />
+      <Parameter Name="HoTen" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="DiaChi" Mode="In" Type="String" />
+      <Parameter Name="SoDienThoai" Mode="In" Type="String" />
+      <Parameter Name="MaLoaiThanhVien" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_Them_ThanhVien">
+      <Parameter Name="TaiKhoan" Mode="In" Type="String" />
+      <Parameter Name="MatKhau" Mode="In" Type="String" />
+      <Parameter Name="HoTen" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="DiaChi" Mode="In" Type="String" />
+      <Parameter Name="SoDienThoai" Mode="In" Type="String" />
+      <Parameter Name="MaLoaiThanhVien" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_Tim_ThanhVien_TheoLoai" ReturnType="Collection(QuanLyThanhVienModel.usp_Tim_ThanhVien_TheoLoai_Result)">
+      <Parameter Name="MaLoaiThanhVien" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_Xoa_ThanhVien">
+      <Parameter Name="TaiKhoan" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="usp_Tim_ThanhVien_TheoTen" EntitySet="ThanhViens" ReturnType="Collection(QuanLyThanhVienModel.ThanhVien)">
+      <Parameter Name="HoTen" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="usp_Tim_ThanhVien_TheoLoai_Result">
+    <Property Type="String" Name="TaiKhoan" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="MatKhau" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DiaChi" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TenLoaiThanhVien" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="usp_Tim_ThanhVien_TheoTen_Result">
+    <Property Type="String" Name="TaiKhoan" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="MatKhau" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DiaChi" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TenLoaiThanhVien" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="usp_Tim_ThanhVien_TheoTen_Result1">
+    <Property Type="String" Name="TaiKhoan" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="MatKhau" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DiaChi" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TenLoaiThanhVien" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="usp_Tim_ThanhVien_TheoTen_Result2">
+    <Property Type="String" Name="TaiKhoan" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="MatKhau" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DiaChi" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SoDienThoai" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="MaLoaiThanhVien" Nullable="true" />
+  </ComplexType>
+</Schema>
